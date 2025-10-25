@@ -1,10 +1,32 @@
 import mongoose from "mongoose";
 
 const agentSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  mobile: String,
-  password: String,
+  name: { 
+    type: String, 
+    required: true 
+  },
+
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+
+  mobile: { 
+    type: String, 
+    required: true 
+  },
+
+  password: { 
+    type: String, 
+    required: true 
+  },
+
+  totalTasks: { 
+    type: Number, 
+    default: 0 
+  },
+   
 });
 
 export default mongoose.model("Agent", agentSchema);
