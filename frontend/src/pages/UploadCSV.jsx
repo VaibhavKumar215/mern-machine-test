@@ -1,37 +1,42 @@
 import { useState } from "react";
-import API from "../services/api";
+import API from "../services/api"; // Axios instance
 import Sidebar from "../components/AdminSidebar";
 import { toast } from "react-toastify";
 
 const UploadCSV = () => {
+  // State to store the selected file
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading spinner state
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!file) return toast.error("Please select a file");
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("file", file);
+    // Validate that a file is selected
+    if (!file) return toast.error("Please select a file");
 
-  setLoading(true);
+    // Prepare form data for multipart upload
+    const formData = new FormData();
+    formData.append("file", file);
 
-  try {
-    const res = await API.post("/upload", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    setLoading(true);
 
-    toast.success(res.data.message);
-  } catch (err) {
-    toast.error(err.response?.data?.message || "Upload failed");
-  } finally {
-    setLoading(false);
-    e.target.reset();
-    setFile(null);
-  }
-};
+    try {
+      // Send POST request to upload endpoint
+      const res = await API.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-
+      toast.success(res.data.message); // Success feedback
+    } catch (err) {
+      // Error feedback
+      toast.error(err.response?.data?.message || "Upload failed");
+    } finally {
+      setLoading(false);
+      e.target.reset(); // Reset form
+      setFile(null); // Clear selected file
+    }
+  };
 
   return (
     <div className="flex h-screen bg-amber-50">
@@ -39,10 +44,16 @@ const handleSubmit = async (e) => {
 
       <div className="flex-1 flex items-center justify-center p-10">
         <div className="bg-white rounded-3xl shadow-lg p-10 w-full max-w-lg">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Upload File</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Upload File
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <label htmlFor="file" className="block text-gray-700 font-medium mb-1">
+            {/* File Input */}
+            <label
+              htmlFor="file"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Select CSV / XLSX / AXLS File
             </label>
             <input
@@ -54,9 +65,12 @@ const handleSubmit = async (e) => {
               className="FormInput"
             />
 
+            {/* Submit Button */}
             <button
               type="submit"
-              className={`FormButton flex items-center justify-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+              className={`FormButton flex items-center justify-center ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
               disabled={loading}
             >
               {loading && (
@@ -64,9 +78,9 @@ const handleSubmit = async (e) => {
               )}
               {loading ? "Uploading..." : "Upload"}
             </button>
-
           </form>
 
+          {/* Display selected file */}
           {file && !loading && (
             <p className="mt-4 text-green-600 font-medium text-center">
               Selected file: {file.name}

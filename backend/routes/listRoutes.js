@@ -1,15 +1,15 @@
 import express from "express";
-import authMiddleware from "../middleware/authMiddleware.js";
-import {  getAgentLists } from "../controllers/listController.js";
+import authMiddleware from "../middleware/authMiddleware.js"; // Import authentication middleware
+import { getAgentLists } from "../controllers/listController.js"; // Import list controller
 
-const router = express.Router();
+const router = express.Router(); // Create a new Express router
 
-// Admin - view all distributed lists
-// router.get("/all",authMiddleware, getAllLists);
+// =============================
+// Agent List Routes
+// =============================
 
-// Agent - view only their assigned lists
-// router.get("/my-lists",authMiddleware, getAgentLists);
+// Fetches all tasks assigned to a specific agent by ID
+// Protected route: requires valid JWT token
+router.get("/:id", authMiddleware, getAgentLists);
 
-router.get("/:id",authMiddleware, getAgentLists);
-
-export default router;
+export default router; // Export router for use in main app

@@ -5,15 +5,21 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AddAgent from "./pages/AddAgent";
 import UploadCSV from "./pages/UploadCSV";
 import ListView from "./pages/ListView";
-import PrivateRoute from "./components/PrivateRoute";
-import { ToastContainer } from 'react-toastify';
+import PrivateRoute from "./components/PrivateRoute"; // Protects authenticated routes
+import { ToastContainer } from 'react-toastify'; // For notifications
 
 function App() {
   return (
     <Router>
+      {/* Define all application routes */}
       <Routes>
+        {/* Public route: Login */}
         <Route path="/" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} />  */}
+
+        {/* Optional registration route (currently commented out) */}
+        {/* <Route path="/register" element={<Register />} /> */}
+
+        {/* Private/Admin-only routes */}
         <Route 
           path="/admin-dashboard" 
           element={
@@ -22,6 +28,7 @@ function App() {
             </PrivateRoute>
           } 
         />
+
         <Route 
           path="/add-agent" 
           element={
@@ -30,6 +37,7 @@ function App() {
             </PrivateRoute>
           } 
         />
+
         <Route 
           path="/upload-csv" 
           element={
@@ -38,6 +46,7 @@ function App() {
             </PrivateRoute>
           } 
         />
+
         <Route 
           path="/lists" 
           element={
@@ -47,6 +56,8 @@ function App() {
           } 
         />
       </Routes>
+
+      {/* Toast notifications container */}
       <ToastContainer />
     </Router>
   );

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import API from "../services/api";
-import Sidebar from "../components/AdminSidebar";
-import { toast } from 'react-toastify';
+import API from "../services/api"; // Axios instance
+import Sidebar from "../components/AdminSidebar"; // Admin sidebar
+import { toast } from "react-toastify";
 
 const AddAgent = () => {
+  // Form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,10 +12,11 @@ const AddAgent = () => {
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({}); // Validation errors
+  const [loading, setLoading] = useState(false); // Loading state for submit
 
-  // Validation helper
+
+  // Validation Helper
   const validate = () => {
     const newErrors = {};
 
@@ -44,20 +46,26 @@ const AddAgent = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // =============================
   // Handle input change
+  // =============================
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // only allow numbers in mobile
+
+    // Only allow numbers in mobile
     if (name === "mobile" && !/^\d{0,10}$/.test(value)) return;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error on change
   };
 
-  // Handle submit
+  // =============================
+  // Handle form submit
+  // =============================
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -65,14 +73,16 @@ const AddAgent = () => {
     try {
       setLoading(true);
 
-      // attach +91 prefix before sending
+      // Add +91 prefix for mobile
       const payload = {
         ...formData,
         mobile: `+91${formData.mobile}`,
       };
 
-      const res = await API.post("/agents", payload);
+      const res = await API.post("/agents", payload); // API call
       toast.success(res.data.message);
+
+      // Reset form
       setFormData({ name: "", email: "", mobile: "", password: "" });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to add agent");
@@ -83,8 +93,10 @@ const AddAgent = () => {
 
   return (
     <div className="flex h-screen bg-amber-50">
+      {/* Sidebar */}
       <Sidebar />
 
+      {/* Form Container */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="Form w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
@@ -92,7 +104,7 @@ const AddAgent = () => {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
+            {/* Name Field */}
             <div>
               <input
                 type="text"
@@ -105,7 +117,7 @@ const AddAgent = () => {
               {errors.name && <p className="FormError">{errors.name}</p>}
             </div>
 
-            {/* Email */}
+            {/* Email Field */}
             <div>
               <input
                 type="email"
@@ -118,7 +130,7 @@ const AddAgent = () => {
               {errors.email && <p className="FormError">{errors.email}</p>}
             </div>
 
-            {/* Mobile */}
+            {/* Mobile Field */}
             <div>
               <div className="flex items-center FormInput">
                 <span className="text-gray-600 mr-2">+91</span>
@@ -134,7 +146,7 @@ const AddAgent = () => {
               {errors.mobile && <p className="FormError">{errors.mobile}</p>}
             </div>
 
-            {/* Password */}
+            {/* Password Field */}
             <div>
               <input
                 type="password"
