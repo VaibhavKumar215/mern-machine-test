@@ -35,9 +35,10 @@ It allows the admin to manage agents, upload CSV files, and automatically distri
 
 ### 🔙 Backend (.env)
 ```bash
-PORT=port_number
+PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+ADMIN_SECRET_KEY=your_admin_secret_key
 ```
 
 ---
@@ -87,6 +88,47 @@ cd frontend
 npm run dev
 ```
 ---
+
+### Add Admin
+---
+```bash
+Step 1: Open Postman or any other
+        Create a new request and select the POST method.
+
+
+Step 2: Enter the API Endpoint
+        Example: http://localhost:3000/api/admin/registerAdmin
+
+
+Step 3: Set the Request Method to POST.
+
+
+Step 4: Add Authorization Header
+
+        In the Authorization tab, add the following:
+
+        KEY	              VALUE
+        Authorization	  yourSecretKey123
+
+        ⚠️ Make sure this key matches your .env file:
+
+        ADMIN_SECRET_KEY=yourSecretKey123
+
+
+Step 5: Add Request Body
+
+        Go to the Body tab → select raw → choose JSON format,
+        then enter the following sample data:
+
+        {
+          "name": "Admin User",
+          "email": "admin@example.com",
+          "password": "Admin@123"
+        }
+
+
+🔹 Step 6: Send the Request
+```
 
 ### 📤 Upload & Distribution Flow
 ---
@@ -159,12 +201,9 @@ Tokens are stored in sessionStorage on the frontend.
 
 ---
 
-<!-- ### 👨‍💻 Author
+### 👨‍💻 Author
 ---
 
 Vaibhav Kumar
-📧 your-email@example.com
 
-🔗 LinkedIn
- | GitHub
- | Portfolio -->
+GitHub -
