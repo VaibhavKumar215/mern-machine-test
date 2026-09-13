@@ -45,7 +45,7 @@ ADMIN_SECRET_KEY=your_admin_secret_key
 ## 🚀 Setup & Installation
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/yourusername/mern-admin-dashboard.git
+[git clone https://github.com/yourusername/mern-admin-dashboard.git](https://github.com/VaibhavKumar215/mern-machine-test.git)
 cd mern-admin-dashboard
 ```
 
